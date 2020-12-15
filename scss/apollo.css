@@ -355,7 +355,7 @@ th {
 
 ::selection {
   color: #FFFFFF;
-  background-color: #42b983; }
+  background-color: #34495e; }
 
 html, body {
   width: 100%;
@@ -382,10 +382,13 @@ a, a:active {
   color: #2c3e50;
   text-decoration: none; }
 
-a.nav-list-link.active,
+a.nav-list-link.active {
+  font-weight: bold;
+  border-bottom: 2px solid  #2c3e50; }
+
 a.nav-list-link:hover,
 a.post-title-link:hover {
-  border-bottom: 2px solid #2c3e50; }
+  text-decoration: underline; }
 
 hr {
   border: 0; }
@@ -469,10 +472,8 @@ header {
   .archive .post-title-link {
     display: block;
     margin-left: 125px;
-    word-break: break-all; }
-    .archive .post-title-link:hover {
-      border-bottom: 0;
-      color: #999; }
+    word-break: break-all;
+    font-weight: bold; }
   .archive .post-info {
     float: left;
     width: 125px;
@@ -484,9 +485,9 @@ header {
 .post-block .post-title {
   margin: 0.65em 0;
   color: #2c3e50;
-  font-size: 2em;
-  text-transform: uppercase;
-  font-weight: inherit; }
+  font-size: 1.5em;
+  font-weight: inherit;
+  font-weight: bold; }
 
 .post-block .post-info {
   color: #7f8c8d;
@@ -719,7 +720,7 @@ pre {
 
 .paginator {
   margin: 4em 0;
-  height: 32px; }
+  height: 40px; }
   .paginator .prev {
     float: left; }
   .paginator .next {
@@ -727,9 +728,16 @@ pre {
   .paginator .prev, .paginator .next {
     margin: 0 10px;
     font-size: 14px;
-    color: #999; }
+    color: #2c3e50;
+    line-height: 40px;
+    padding: 0 10px;
+    font-weight: bold;
+    border-radius: 20px;
+    overflow: hidden; }
     .paginator .prev:hover, .paginator .next:hover {
-      border-bottom: 2px solid #999; }
+      background-color: #2c3e50;
+      color: #fff;
+      transition: 0.3s; }
 
 .ds-thread,
 #disqus_thread {
@@ -741,7 +749,8 @@ main.container {
 @media screen and (min-width: 700px) {
   .wrap {
     width: 700px;
-    margin: 0 auto; }
+    margin: 0 auto;
+    transition: 0.3s; }
   header {
     padding: 20px 0px; } }
 

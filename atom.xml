@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Tit1e/"/>
-  <updated>2020-11-29T12:25:17.916Z</updated>
+  <updated>2020-12-15T13:32:51.065Z</updated>
   <id>https://github.com/Tit1e/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>为域名申请免费 https 证书</title>
+    <link href="https://github.com/Tit1e/2020/12/15/137-freessl/"/>
+    <id>https://github.com/Tit1e/2020/12/15/137-freessl/</id>
+    <published>2020-12-15T12:55:58.000Z</published>
+    <updated>2020-12-15T13:32:51.065Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天五六月份上个服务器到期后，一直没有开始折腾新的服务器，只是安装了一下环境：node，Nginx，Mysql之类，很多服务都没有跑起来，今天终于打算把它重新捡起来，目前服务都基本已经恢复，进行得还算顺利，趁热打铁，把蒸腾的一些经过记录一下，其实上次折腾的时候我就打算记录，无奈拖太久，已经回忆不起来了，只能作罢。</p><p>服务器基础的一些基础环境的安装之前已经写过一篇博客，就不再展开，要了解可以<a href="https://evolly.one/2018/12/14/51-ubuntu-node/" target="_blank" rel="noopener">点击这里</a>。</p><p>域名的购买备案我都在阿里云解决，此处不再展开。今天要讲的是为域名申请免费的 https 证书，因为这个域名之前是为了给小程序写接口申请的，小程序必须使用域名并且要备案，使用 https 访问。</p><p>我是在<a href="https://freessl.cn/" target="_blank" rel="noopener">freessl</a>申请的域名，并且申请的是<strong>多域名通配符</strong>类型的证书，这样我就不用给每个二级域名都申请一个证书。不过这种证书有效期比较短，只有三个月，过期后怎么处理目前我还不确定，只能到时候再看。</p><p>进入网站后先登录，然后在输入框中输入域名，我需要多域名所以我是这样写的（拿百度举例）：*.baidu.com,baidu.com</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-15-131207.png" alt></p><p>然后网站会让你下载一个应用程序，叫 keyManager。设置好开启密码后，会先让你授权域名运营商，我用的阿里云，它本身就支持，所以我填入两个 key 后马上就授权成功了，后面就是申请，过程很简单，完成后需要你去域名解析那添加一个 TXT 类型的解析，解析内容软件会提供。</p><p>解析完了之后，导出证书，我用的 Nginx 那我就选择 Nginx。下载后是一个压缩包，解压后得到两个文件，一个扩展名为<code>.crt</code>，另一个为<code>.key</code>。这两个文件到时候需要上传到服务器中，Nginx配置中需要用到。</p><p>Nginx 的配置文件大致如下</p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// xxxx.conf</span><br><span class="line">// 重定向，http 重定向为 https</span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name 域名;</span><br><span class="line">    return 301 https://$server_name$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name 域名;</span><br><span class="line">    ssl_certificate /path/文件名.crt; //存放文件的路径</span><br><span class="line">    ssl_certificate_key /path/文件名.key; //存放文件的路径</span><br><span class="line">    root /home/ubuntu/www/animal-crossing-home; //项目根目录</span><br><span class="line">    index index.html; // 默认文件名</span><br><span class="line">    location / &#123;</span><br><span class="line">      proxy_pass http://127.0.0.1:5000; //本地服务地址加端口</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>然后重启Nginx</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -s reload</span><br></pre></td></tr></table></figure><p>这时，你访问 http 的域名，就会被重定向到 https，chrome 地址前不出意外的话，也应该会显示一把小锁。</p><p>域名三个月后过期如何处理我到时候会再写一篇博客进行说明。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;今天五六月份上个服务器到期后，一直没有开始折腾新的服务器，只是安装了一下环境：node，Nginx，Mysql之类，很多服务都没有跑起来，今天终于打算把它重新捡起来，目前服务都基本已经恢复，进行得还算顺利，趁热打铁，把蒸腾的一些经过记录一下，其实上次折腾的时候我就打算记录，
+      
+    
+    </summary>
+    
+    
+      <category term="折腾" scheme="https://github.com/Tit1e/tags/%E6%8A%98%E8%85%BE/"/>
+    
+  </entry>
   
   <entry>
     <title>flex-grow 属性无效，宽度被撑开问题解决方法</title>
@@ -479,35 +502,6 @@
       <category term="学习" scheme="https://github.com/Tit1e/tags/%E5%AD%A6%E4%B9%A0/"/>
     
       <category term="vue" scheme="https://github.com/Tit1e/tags/vue/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>小程序报错：Page is not constructed because it is not found</title>
-    <link href="https://github.com/Tit1e/2019/06/24/117-mini-program-page-is-not-constructed/"/>
-    <id>https://github.com/Tit1e/2019/06/24/117-mini-program-page-is-not-constructed/</id>
-    <published>2019-06-24T13:07:52.000Z</published>
-    <updated>2020-02-22T13:46:59.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近之前写的小程序进行了修改，目录结构进行了调整，导致程序报了错，找了很久才解决问题。</p><p>控制台报错如下：</p><blockquote><p>Page is not constructed because it is not found</p></blockquote><p>网上搜了很多的答案，但是都没解决我的问题。问题发生的前提是这样的：小程序是我用 mp-vue 开发的，这次底部加了个导航，于是多了个目录，原来的目录命名有点问题，我就把原来的一个目录名字改了，然后把引用的一些资源路径什么的都改完之后，这个问题就存在了。我重启了微信开发者工具，重跑了 mp-vue 的服务器，网上搜了一大圈，都没解决问题。</p><p>最后，解决方法是：把 mp-vue 的服务器停止，然后把输出目录整个删除，在重新启动服务器生成一下目录就好了。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;最近之前写的小程序进行了修改，目录结构进行了调整，导致程序报了错，找了很久才解决问题。&lt;/p&gt;
-&lt;p&gt;控制台报错如下：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Page is not constructed because it is not found&lt;/p&gt;
-&lt;/blo
-      
-    
-    </summary>
-    
-    
-      <category term="学习" scheme="https://github.com/Tit1e/tags/%E5%AD%A6%E4%B9%A0/"/>
-    
-      <category term="小程序" scheme="https://github.com/Tit1e/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
     
   </entry>
   
