@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Tit1e/"/>
-  <updated>2020-12-17T15:53:50.838Z</updated>
+  <updated>2020-12-17T15:56:18.906Z</updated>
   <id>https://github.com/Tit1e/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://github.com/Tit1e/2020/12/17/138-ios-desktop/"/>
     <id>https://github.com/Tit1e/2020/12/17/138-ios-desktop/</id>
     <published>2020-12-17T14:56:46.000Z</published>
-    <updated>2020-12-17T15:53:50.838Z</updated>
+    <updated>2020-12-17T15:56:18.906Z</updated>
     
-    <content type="html"><![CDATA[<p>之所以现在才写这个教程，是因为iOS14.3发布后，通过快捷指令打开应用不用先打开快捷指令 app 再跳到指定 app 了，但目前通过快捷指令打开的应用，每次打开会出现一个弹窗，并且这个弹窗无法关闭，也不能手动提前关闭。</p><p>先上最终效果图：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-IMG_7227.PNG" alt></p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-IMG_7228.PNG" alt></p><p>之前小组件刚出来的时候也折腾过一次，但是因为打开应用要跳转两次，体验太差，最后作罢。这次虽然还有点小缺陷，但现在不用再二次跳转，这个体验提升巨大，所以又再一次上手折腾，希望下次能把弹窗也去掉。</p><video muted src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-iosdesktopmute.mp4"></video><p>通过这种方式，就可以把应用图标设置成任意图片。</p><p>这是我的素材包，有需要可以自取：<a href="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-icons.zip" target="_blank" rel="noopener">下载素材包</a></p>]]></content>
+    <content type="html"><![CDATA[<p>之所以现在才写这个教程，是因为iOS14.3发布后，通过快捷指令打开应用不用先打开快捷指令 app 再跳到指定 app 了，但目前通过快捷指令打开的应用，每次打开会出现一个弹窗，并且这个弹窗无法关闭，也不能手动提前关闭。</p><p>先上最终效果图：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-IMG_7227.PNG" alt></p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-IMG_7228.PNG" alt></p><p>之前小组件刚出来的时候也折腾过一次，但是因为打开应用要跳转两次，体验太差，最后作罢。这次虽然还有点小缺陷，但现在不用再二次跳转，这个体验提升巨大，所以又再一次上手折腾，希望下次能把弹窗也去掉。</p><video controls muted src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-iosdesktopmute.mp4"></video><p>通过这种方式，就可以把应用图标设置成任意图片。</p><p>这是我的素材包，有需要可以自取：<a href="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-icons.zip" target="_blank" rel="noopener">下载素材包</a></p>]]></content>
     
     <summary type="html">
     
