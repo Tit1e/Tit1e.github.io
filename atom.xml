@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Tit1e/"/>
-  <updated>2020-12-19T15:59:26.276Z</updated>
+  <updated>2020-12-23T06:23:49.390Z</updated>
   <id>https://github.com/Tit1e/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>用快捷指令快速打开支付码、扫一扫或支付宝指定小程序</title>
+    <link href="https://github.com/Tit1e/2020/12/23/140-alipay-shortcuts/"/>
+    <id>https://github.com/Tit1e/2020/12/23/140-alipay-shortcuts/</id>
+    <published>2020-12-23T05:26:57.000Z</published>
+    <updated>2020-12-23T06:23:49.390Z</updated>
+    
+    <content type="html"><![CDATA[<p>首先说说使用快捷指令打开支付码、扫一扫等功能的好处，因为在ios14下，支付宝自带的小组件就有这个功能。</p><ol><li>小组件上的功能是固定的，无法自定义。</li><li>小组件样式不一定符合用户审美（至少不符合我的审美，不然我也不会写这篇文章）。</li><li>小组件占用屏幕空间大，降低了屏幕的使用效率。</li></ol><p>这是支付宝小组件的效果：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-23-IMG_7334.jpg?imageMogr2/thumbnail/!40p" alt></p><p>只是使用快捷指令的效果，图上的付款码，扫一扫和叮嗒出行都是支付宝的功能快捷指令化：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-23-IMG_7335.jpg?imageMogr2/thumbnail/!40p" alt></p><p>使用效果如下：</p><video controls muted src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-23-140-alipay-shortcuts.mp4"></video><p>可以看出使用效果上并没有太大的差别，都是点击图标都直接进入扫码界面，没有多余的步骤。</p><h2 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h2><p>实现这个效果很简单</p><ol><li>新建一个快捷指令</li><li>打开指定 url</li><li>保存并添加到桌面</li></ol><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-23-IMG_7336.png?imageMogr2/thumbnail/!40p" alt></p><p>如何将快捷指令发送到桌面可以参考<a href="https://evolly.one/2020/12/17/138-ios-desktop/" target="_blank" rel="noopener">桌面美化</a>这篇文章。</p><p>上面途中展示的扫一扫的链接，我这里还有一些其他的功能链接，有需要自取。</p><ul><li><p>健康码: alipays://platformapi/startapp?appId=2021001139676873</p></li><li><p>微信扫码: weixin://scanqrcode</p></li><li><p>支付宝扫一扫: alipayqr://platformapi/startapp?saId=10000007</p></li><li><p>支付宝付款码: alipayqr://platformapi/startapp?saId=20000056</p></li><li><p>支付宝收款码: alipayqr://platformapi/startapp?saId=20000123</p></li><li><p>支付宝乘车码: alipayqr://platformapi/startapp?saId=200011235</p></li><li><p>支付宝查快递: alipays://platformapi/startapp?appId=20000754</p></li><li><p>蚂蚁庄园: alipays://platformapi/startapp?appId=66666674</p></li><li><p>蚂蚁森林： alipays://platformapi/startapp?appId=60000002</p></li></ul><p>上面这些都是现成的，但仔细观察可以发现上面这些链接中，其实不一样的只是地址中的 appId不同，其他都是一样的，所以是不是只要有应用的 appId，就可以通过这种方式实现快速打开应用？</p><p>的确可以，比如我自己做了一个叮嗒出行的快捷方式，这是一个支付宝内嵌的小程序，支付宝也支持添加桌面书签，但这种方式会在打开过程中做一次跳转，体验非常差。</p><p>下面说一下提取程序中的 appId 的方式：</p><ol><li><p>在支付宝中打开要添加的程序，点击程序右上角的三个点，在下方弹出功能菜单。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-23-IMG_7340-1.png?imageMogr2/thumbnail/!40p" alt></p></li><li><p>点击下方的【添加到桌面】这时小程序会在浏览器打开一个页面，上面会有添加到桌面的教程。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-23-IMG_7341.jpg?imageMogr2/thumbnail/!40p" alt></p></li><li><p>复制浏览器地址</p></li><li><p>从地址中提取 appId</p></li></ol><p>这时我复制出来的地址：</p><p><code>https://render.alipay.com/p/s/shortcut/index?appId=2018110161946659&amp;appName=叮嗒出行&amp;appIcon=https://appstoreisvpic.alipayobjects.com/prod/f38acc92-21a5-48be-9a66-8a69474b672a.png@120w.png</code></p><p>地址中的 <code>appId=2018110161946659</code> 这串 appId 就是我们要找的。</p><p>找到这串 id 后，我们把 id 跟前面的的那串地址拼到一起 <code>alipays://platformapi/startapp?appId=2018110161946659</code>，然后在快捷指令中新建一个指令就完成了。</p><p>看一下原来的打开方式跟用快捷指令打开的区别：</p><video controls muted src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-23-140-alipay-shortcuts2.mp4"></video><p>微信如果可以拿到 appId 也可以使用这种方式操作。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;首先说说使用快捷指令打开支付码、扫一扫等功能的好处，因为在ios14下，支付宝自带的小组件就有这个功能。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;小组件上的功能是固定的，无法自定义。&lt;/li&gt;
+&lt;li&gt;小组件样式不一定符合用户审美（至少不符合我的审美，不然我也不会写这篇文章）。&lt;/li&gt;
+      
+    
+    </summary>
+    
+    
+      <category term="折腾" scheme="https://github.com/Tit1e/tags/%E6%8A%98%E8%85%BE/"/>
+    
+  </entry>
   
   <entry>
     <title>js 上传文件至腾讯云对象存储</title>
@@ -47,9 +73,9 @@
     <link href="https://github.com/Tit1e/2020/12/17/138-ios-desktop/"/>
     <id>https://github.com/Tit1e/2020/12/17/138-ios-desktop/</id>
     <published>2020-12-17T14:56:46.000Z</published>
-    <updated>2020-12-17T15:56:18.906Z</updated>
+    <updated>2020-12-23T05:55:11.635Z</updated>
     
-    <content type="html"><![CDATA[<p>之所以现在才写这个教程，是因为iOS14.3发布后，通过快捷指令打开应用不用先打开快捷指令 app 再跳到指定 app 了，但目前通过快捷指令打开的应用，每次打开会出现一个弹窗，并且这个弹窗无法关闭，也不能手动提前关闭。</p><p>先上最终效果图：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-IMG_7227.PNG" alt></p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-IMG_7228.PNG" alt></p><p>之前小组件刚出来的时候也折腾过一次，但是因为打开应用要跳转两次，体验太差，最后作罢。这次虽然还有点小缺陷，但现在不用再二次跳转，这个体验提升巨大，所以又再一次上手折腾，希望下次能把弹窗也去掉。</p><video controls muted src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-iosdesktopmute.mp4"></video><p>通过这种方式，就可以把应用图标设置成任意图片。</p><p>这是我的素材包，有需要可以自取：<a href="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-icons.zip" target="_blank" rel="noopener">下载素材包</a></p>]]></content>
+    <content type="html"><![CDATA[<p>之所以现在才写这个教程，是因为iOS14.3发布后，通过快捷指令打开应用不用先打开快捷指令 app 再跳到指定 app 了，但目前通过快捷指令打开的应用，每次打开会出现一个弹窗，并且这个弹窗无法关闭，也不能手动提前关闭。</p><p>先上最终效果图：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-IMG_7227.PNG?imageMogr2/thumbnail/!40p" alt></p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-IMG_7228.PNG?imageMogr2/thumbnail/!40p" alt></p><p>之前小组件刚出来的时候也折腾过一次，但是因为打开应用要跳转两次，体验太差，最后作罢。这次虽然还有点小缺陷，但现在不用再二次跳转，这个体验提升巨大，所以又再一次上手折腾，希望下次能把弹窗也去掉。</p><video controls muted src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-iosdesktopmute.mp4"></video><p>通过这种方式，就可以把应用图标设置成任意图片。</p><p>这是我的素材包，有需要可以自取：<a href="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-17-icons.zip" target="_blank" rel="noopener">下载素材包</a></p>]]></content>
     
     <summary type="html">
     
@@ -476,29 +502,6 @@
       
       
         &lt;p&gt;&lt;img src=&quot;https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-02-22-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3
-      
-    
-    </summary>
-    
-    
-      <category term="学习" scheme="https://github.com/Tit1e/tags/%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>js 模拟鼠标拖拽 mouseup 与 click 事件冲突解决方案</title>
-    <link href="https://github.com/Tit1e/2019/12/11/120-drag-and-click/"/>
-    <id>https://github.com/Tit1e/2019/12/11/120-drag-and-click/</id>
-    <published>2019-12-11T13:48:47.000Z</published>
-    <updated>2020-02-22T13:47:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>公司项目中最近有个需要需要拖拽框选日期，也能单击选择，类似桌面选择文件这种，于是我 google + 自己改造终于实现了这个需求，但是在使用过程中有个问题一直存在，就是有时候单击无法选中日期。后来我打印 events 发现无法选择的时候，events 是拖拽时候显示的虚线框，而不是真正想点击的点击的元素。之后我就一直在网上找寻解决方法，无意中发现了一个冷门 CSS 属性：pointer-events: none。MDN对它的定义是：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2019-12-18-142800.png" alt></p><p>说简单点就是不会触发元素的 <code>onclick</code> 事件了。</p><p>我使用了这个属性后，的确不会再打印出虚线框了，但是问题还是没解决，于是继续排查，最后发现是有的点击只是看起来是点击，其实是触发了拖动事件，而问题就出在拖动结束时的鼠标抬起 <code>mouseup</code> 事件与<code>click</code> 事件一起触发，从而导致出现了新的问题。</p><p>最后的解决方案是定义了一个变量，平时为 <code>false</code>，一但触发了 <code>mousemove</code> 事件，就把它设置为 <code>true</code> ，然后在 <code>mouseup</code> 事件结束时设置一个定时器，延时 200 毫秒，200毫秒后把这个变量设为 <code>false</code> ，因为 <code>mouseup</code> 之后马上会触发 <code>click</code> 事件，这个时间肯定是小于 200 毫秒的，所以在 点击事件的函数中再判断下这个变量是否为 <code>true</code> 就可以了，如果为 <code>true</code> 则直接 <code>return</code> 。</p><p><a href="https://evolly.one/demos/drag-and-click/" target="_blank" rel="noopener">Demo</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;公司项目中最近有个需要需要拖拽框选日期，也能单击选择，类似桌面选择文件这种，于是我 google + 自己改造终于实现了这个需求，但是在使用过程中有个问题一直存在，就是有时候单击无法选中日期。后来我打印 events 发现无法选择的时候，events 是拖拽时候显示的虚线框
       
     
     </summary>
