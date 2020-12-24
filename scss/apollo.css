@@ -492,6 +492,7 @@ header {
   padding-top: 1em; }
 
 .post-block .post-title {
+  text-align: justify;
   margin: 0.65em 0;
   color: #2c3e50;
   font-size: 1.5em;
@@ -753,7 +754,7 @@ pre {
   margin-bottom: 2em; }
 
 main.container {
-  margin: 2em 10px; }
+  margin: 3em 16px; }
 
 @media screen and (min-width: 700px) {
   .wrap {
@@ -779,7 +780,19 @@ main.container {
   .home.post-list,
   .archive {
     margin-top: 0; }
-  .post-content h2, .post-content h3, .post-content h4, .post-content h5, .post-content h6 {
+    main.container .post-list-item,
+    .home.post-list .post-list-item,
+    .archive .post-list-item {
+      padding-bottom: 0.5em; }
+  .post-block .post-title {
+    margin: 0.4em 0;
+    line-height: 1.2em; }
+    .post-block .post-title .post-title-link {
+      font-size: 0.8em; }
+  .post-block .post-info {
+    margin: 0;
+    font-size: 12px; }
+  .post-block .post-content h2, .post-block .post-content h3, .post-block .post-content h4, .post-block .post-content h5, .post-block .post-content h6 {
     max-width: 300px;
     left: 15px; }
   .ds-thread,
