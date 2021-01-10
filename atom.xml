@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Tit1e/"/>
-  <updated>2020-12-31T14:18:16.354Z</updated>
+  <updated>2021-01-10T12:11:23.672Z</updated>
   <id>https://github.com/Tit1e/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vue 项目新增 PWA 支持初次尝试</title>
+    <link href="https://github.com/Tit1e/2021/01/10/146-vue-pwa/"/>
+    <id>https://github.com/Tit1e/2021/01/10/146-vue-pwa/</id>
+    <published>2021-01-10T11:21:09.000Z</published>
+    <updated>2021-01-10T12:11:23.672Z</updated>
+    
+    <content type="html"><![CDATA[<p>前阵子制作了我的个人摄影网站 <a href="https://album.animalcrossing.life/" target="_blank" rel="noopener">Tit1e’s Photo Studio</a>。由于是网站，因此每次访问的时候总是有些麻烦，虽然现在移动端已经可以把书签添加至桌面，但是打开的时候依旧是浏览器的界面，丑丑的工具栏跟地址栏依旧显示在界面上，而且把书签添加到桌面这种操作也太没技术含量了，于是我想到了 PWA。这玩意儿我一直在用，但是自己从来没实践过，于是正好趁着这个机会实践一番，项目本身很简单，拿来试手正好。</p><p>我这个项目改造很简单，添加 PAW 插件：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果没装脚手架，那需要先安装一下 vue-cli</span></span><br><span class="line">vue add pwa</span><br></pre></td></tr></table></figure><p>但是我执行这一步的时候报错了，原因是因为 node 版本过低，依赖冲突。我原本使用的是 9.6 版本的 node，不行。又换了 11.8 的版本，依旧冲突。最后我直接使用了最新的 15.5.1 的版本。</p><p>执行完成后，你的项目中会多出一些文件。</p><p>首先修改 vue.config.js，在配置文件中新增下列配置项：</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  pwa: &#123;</span><br><span class="line">    manifestOptions: &#123;</span><br><span class="line">      short_name: <span class="string">"Title's Album"</span>, <span class="comment">// 名称缩写</span></span><br><span class="line">      name: <span class="string">"Title's Album"</span>, <span class="comment">// 全名</span></span><br><span class="line">      start_url: <span class="string">"index.html"</span>, <span class="comment">// 启动页面</span></span><br><span class="line">      display: <span class="string">"standalone"</span>, <span class="comment">// 启动过渡动画</span></span><br><span class="line">      background_color: <span class="string">"#1f212b"</span>, <span class="comment">// 背景颜色</span></span><br><span class="line">      theme_color: <span class="string">"#1f212b"</span> <span class="comment">// 主题颜色</span></span><br><span class="line">    &#125;,</span><br><span class="line">    iconPaths: &#123;</span><br><span class="line">      favicon32: <span class="string">'icon.png'</span>,</span><br><span class="line">      favicon16: <span class="string">'icon.png'</span>,</span><br><span class="line">      appleTouchIcon: <span class="string">'icon.png'</span>,</span><br><span class="line">      maskIcon: <span class="string">'icon.png'</span>,</span><br><span class="line">      msTileImage: <span class="string">'icon.png'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>icon.png 就是之后添加到桌面后的图标，放置位置在 public 目录下。</p><p>然后在 <code>public/index.html</code> 的 <code>header</code> 中加入 <code>&lt;meta name=&quot;theme-color&quot; content=&quot;#1f212b&quot;&gt;</code>。</p><p>然后打包部署就可以了。</p><p>然后打开浏览器，找到【添加到主屏幕】（我用的 iOS，安卓应该也有类似的功能）</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-10-IMG_7636.PNG?imageMogr2/thumbnail/!40p" alt></p><p>访问效果：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-10-IMG_7637.PNG?imageMogr2/thumbnail/!40p" alt></p><p>这只是一次 PWA 的简单尝试，实际项目中情况会比这个复杂得多，比如离线缓存，消息推送等。</p><p>既然用到了 PWA，我又想到了 Vue 的 SSR，服务器端渲染我也没有接触过，后面有机会我再把项目改造一番。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;前阵子制作了我的个人摄影网站 &lt;a href=&quot;https://album.animalcrossing.life/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Tit1e’s Photo Studio&lt;/a&gt;。由于是网站，因此每次访问的时候总是有些麻烦
+      
+    
+    </summary>
+    
+    
+      <category term="折腾" scheme="https://github.com/Tit1e/tags/%E6%8A%98%E8%85%BE/"/>
+    
+      <category term="vue" scheme="https://github.com/Tit1e/tags/vue/"/>
+    
+  </entry>
   
   <entry>
     <title>你好啊，2021</title>
@@ -492,29 +517,6 @@
     
     
       <category term="折腾" scheme="https://github.com/Tit1e/tags/%E6%8A%98%E8%85%BE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>阻止表单只有一个 input 时回车自动提交</title>
-    <link href="https://github.com/Tit1e/2020/03/08/126-form-single-input/"/>
-    <id>https://github.com/Tit1e/2020/03/08/126-form-single-input/</id>
-    <published>2020-03-08T07:13:44.000Z</published>
-    <updated>2020-03-08T07:35:45.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>之前在开发过程中遇到过这个问题，就是当一个表单中只有一个 input 时，enter 会直接提交表单。当初我用的是 Element-UI  的表单组件，本来我以为是 Element-UI的问题，后来查了后发现是原生表单就有这个特性。我当时是使用异步请求的数据，因此并不需要原生的提交，所以只有一个 input 时得想办法阻止原生的提交功能。</p><p>Element-UI 因为是封装过的，可以用它自己的方法来解决：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 只要在表单元素上加入 @submit.native.prevent --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">el-form</span> @<span class="attr">submit.native.prevent</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-form</span>&gt;</span></span><br></pre></td></tr></table></figure><p>原生表单的组织方式我也查了一下，在这总结一下：</p><p>方法一：</p><p>在表单中再加入一个隐藏的 input</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;/<span class="name">input</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">""</span> <span class="attr">style</span>=<span class="string">"display: none;"</span>&gt;</span><span class="tag">&lt;/<span class="name">input</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure><p>方法二：</p><p>表单提交时阻止提交</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">onsubmit</span>=<span class="string">"return false;"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;/<span class="name">input</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure><p>方法三：</p><p>监听 input  <code>keydown</code> 事件</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">onkeydown</span>=<span class="string">"if(event.keyCode === 13) &#123; return false &#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">input</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;之前在开发过程中遇到过这个问题，就是当一个表单中只有一个 input 时，enter 会直接提交表单。当初我用的是 Element-UI  的表单组件，本来我以为是 Element-UI的问题，后来查了后发现是原生表单就有这个特性。我当时是使用异步请求的数据，因此并不需要原
-      
-    
-    </summary>
-    
-    
-      <category term="学习" scheme="https://github.com/Tit1e/tags/%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
