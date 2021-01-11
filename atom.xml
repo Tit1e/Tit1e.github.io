@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Tit1e/"/>
-  <updated>2021-01-10T12:11:23.672Z</updated>
+  <updated>2021-01-11T13:22:09.060Z</updated>
   <id>https://github.com/Tit1e/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>vue 项目新增 PWA 支持初次尝试</title>
+    <title>将本地某个文件夹备份或同步至群晖</title>
+    <link href="https://github.com/Tit1e/2021/01/11/147-nas-sync/"/>
+    <id>https://github.com/Tit1e/2021/01/11/147-nas-sync/</id>
+    <published>2021-01-11T12:33:28.000Z</published>
+    <updated>2021-01-11T13:22:09.060Z</updated>
+    
+    <content type="html"><![CDATA[<p>在最近一次时间机器备份的时候，突然想到我电脑中的 Lightroom 的备份，用时间机器备份不现实，由于我有一个群晖，就想着用它应该可以实现备份，毕竟这不是本来就是群晖的一个卖点么？</p><p>经过一番还算顺利的折腾之后，功能实现了，但是我的 Lightroom目录没了，也就是之前调好的照片配置全没了，我只把之前的照片导出备份了一份，还是有点心痛，我之前整理可是花了好大力气。</p><p>下面是经过：</p><p>###1. 建立备份空间，开启共性</p><p>首先是分配一个空间，这个使用群晖的肯定都知道，不然东西往哪存？</p><p>然后打开 <strong>Synology Drive 管理控制台</strong>，左侧切换到 <strong>团队文件夹</strong> 标签，选择你要开启共享的目录，然后点击上方的【启用】按钮。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-11-Xnip2021-01-10_17-04-37.png" alt></p><p>###2. 下载安装 Synology Drive 客户端</p><p>接下来去群晖官方的<a href="https://www.synology.cn/zh-cn/support/download/DS218play#utilities" target="_blank" rel="noopener"><strong>下载中心</strong></a>下载<strong>与你群晖型号匹配的 Synology Drive Client 客户端</strong>，下载后安装。</p><h3 id="3-设置"><a href="#3-设置" class="headerlink" title="3. 设置"></a>3. 设置</h3><p>我用的的是 Mac，所以我用 Mac 版的客户端做讲解，Windows的版本应该也差不多。</p><p>运行软件，点击【立即开始】后会出现任务类型选择界面：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-11-Xnip2021-01-10_16-29-14.png" alt></p><p>以我的理解，这两种任务的区别在于：</p><ul><li><p>同步任务是双向的，你在群晖添加或删除文件，会同步至你本地电脑，你本地电脑删除文件群晖上也会删除相应文件，就像各种在线网盘的共享文件夹。</p></li><li><p>而备份任务是单向的，群晖只会把你本地硬盘的文件同步至群晖，同步完后，你在群晖上删除文件也不会影响你本地的文件。</p></li></ul><p>我选择的是同步任务。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-11-Xnip2021-01-10_16-29-45.png" alt></p><p>软件会要求你输入地址跟账号密码，因为我自己只打算定期在家里（还不是群晖官方的速度太慢了）备份下照片，所以我用的局域网地址。点击地址右侧的放大镜会自动搜索局域网内的设备。当然你也可以输入 <code>quickconnect.cn</code> 域名的地址，白群晖应该每人都有一个，但速度感人。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-11-Xnip2021-01-10_16-29-57.png" alt></p><p>我就不用 quickconnect 了，点击【现在不要】。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-11-Xnip2021-01-10_16-30-07.png" alt></p><p>这个警告可能是因为我用的局域网地址，局域网地址是 http 的，而我输账号密码的地方又勾选了【启用 SSL 数据传输加密】导致的，点击【仍然继续】。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-11-Xnip2021-01-10_16-30-17.png" alt></p><p>然后就到了配置同步文件夹的步骤，鼠标放上去在右侧会显示编辑按钮，分别选择本地与群晖上要同步的目录。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-11-Xnip2021-01-10_16-31-06.png" alt></p><p>选择本地文件夹的时候有个要注意的点，就是那个复选框的项，如果勾选了【创建空 SynologyDrive 文件夹】，那么按我图上的配置来说，最后它会在我的 Lightroom Photos 文件夹下再创建一个 SynologyDrive 文件夹，放到这个文件夹中的文件才会被同步，而我想要的是同步 Lightroom Photos 文件夹中的文件，所以我在选择的时候需要把这个勾去掉。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-11-Xnip2021-01-10_16-31-28.png" alt></p><p>这个好像是共同协作用的，我也没怎么研究，感觉用不到，就选择了【稍后再说】，点击【完成】。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-11-Xnip2021-01-10_16-31-46.png" alt></p><p>然后任务列表就出现了刚添加的任务，稍等一会儿就会发现在软件正在同步了。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-11-132134.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在最近一次时间机器备份的时候，突然想到我电脑中的 Lightroom 的备份，用时间机器备份不现实，由于我有一个群晖，就想着用它应该可以实现备份，毕竟这不是本来就是群晖的一个卖点么？&lt;/p&gt;
+&lt;p&gt;经过一番还算顺利的折腾之后，功能实现了，但是我的 Lightroom目录没了
+      
+    
+    </summary>
+    
+    
+      <category term="折腾" scheme="https://github.com/Tit1e/tags/%E6%8A%98%E8%85%BE/"/>
+    
+      <category term="nas" scheme="https://github.com/Tit1e/tags/nas/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vue 项目新增 PWA 支持初次尝试</title>
     <link href="https://github.com/Tit1e/2021/01/10/146-vue-pwa/"/>
     <id>https://github.com/Tit1e/2021/01/10/146-vue-pwa/</id>
     <published>2021-01-10T11:21:09.000Z</published>
-    <updated>2021-01-10T12:11:23.672Z</updated>
+    <updated>2021-01-11T12:44:23.387Z</updated>
     
     <content type="html"><![CDATA[<p>前阵子制作了我的个人摄影网站 <a href="https://album.animalcrossing.life/" target="_blank" rel="noopener">Tit1e’s Photo Studio</a>。由于是网站，因此每次访问的时候总是有些麻烦，虽然现在移动端已经可以把书签添加至桌面，但是打开的时候依旧是浏览器的界面，丑丑的工具栏跟地址栏依旧显示在界面上，而且把书签添加到桌面这种操作也太没技术含量了，于是我想到了 PWA。这玩意儿我一直在用，但是自己从来没实践过，于是正好趁着这个机会实践一番，项目本身很简单，拿来试手正好。</p><p>我这个项目改造很简单，添加 PAW 插件：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果没装脚手架，那需要先安装一下 vue-cli</span></span><br><span class="line">vue add pwa</span><br></pre></td></tr></table></figure><p>但是我执行这一步的时候报错了，原因是因为 node 版本过低，依赖冲突。我原本使用的是 9.6 版本的 node，不行。又换了 11.8 的版本，依旧冲突。最后我直接使用了最新的 15.5.1 的版本。</p><p>执行完成后，你的项目中会多出一些文件。</p><p>首先修改 vue.config.js，在配置文件中新增下列配置项：</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  pwa: &#123;</span><br><span class="line">    manifestOptions: &#123;</span><br><span class="line">      short_name: <span class="string">"Title's Album"</span>, <span class="comment">// 名称缩写</span></span><br><span class="line">      name: <span class="string">"Title's Album"</span>, <span class="comment">// 全名</span></span><br><span class="line">      start_url: <span class="string">"index.html"</span>, <span class="comment">// 启动页面</span></span><br><span class="line">      display: <span class="string">"standalone"</span>, <span class="comment">// 启动过渡动画</span></span><br><span class="line">      background_color: <span class="string">"#1f212b"</span>, <span class="comment">// 背景颜色</span></span><br><span class="line">      theme_color: <span class="string">"#1f212b"</span> <span class="comment">// 主题颜色</span></span><br><span class="line">    &#125;,</span><br><span class="line">    iconPaths: &#123;</span><br><span class="line">      favicon32: <span class="string">'icon.png'</span>,</span><br><span class="line">      favicon16: <span class="string">'icon.png'</span>,</span><br><span class="line">      appleTouchIcon: <span class="string">'icon.png'</span>,</span><br><span class="line">      maskIcon: <span class="string">'icon.png'</span>,</span><br><span class="line">      msTileImage: <span class="string">'icon.png'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>icon.png 就是之后添加到桌面后的图标，放置位置在 public 目录下。</p><p>然后在 <code>public/index.html</code> 的 <code>header</code> 中加入 <code>&lt;meta name=&quot;theme-color&quot; content=&quot;#1f212b&quot;&gt;</code>。</p><p>然后打包部署就可以了。</p><p>然后打开浏览器，找到【添加到主屏幕】（我用的 iOS，安卓应该也有类似的功能）</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-10-IMG_7636.PNG?imageMogr2/thumbnail/!40p" alt></p><p>访问效果：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-10-IMG_7637.PNG?imageMogr2/thumbnail/!40p" alt></p><p>这只是一次 PWA 的简单尝试，实际项目中情况会比这个复杂得多，比如离线缓存，消息推送等。</p><p>既然用到了 PWA，我又想到了 Vue 的 SSR，服务器端渲染我也没有接触过，后面有机会我再把项目改造一番。</p>]]></content>
     
@@ -493,30 +519,6 @@
     
     
       <category term="学习" scheme="https://github.com/Tit1e/tags/%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>AppleScript 初尝试</title>
-    <link href="https://github.com/Tit1e/2020/03/14/127-appleScript-Thunder/"/>
-    <id>https://github.com/Tit1e/2020/03/14/127-appleScript-Thunder/</id>
-    <published>2020-03-14T02:15:48.000Z</published>
-    <updated>2020-03-14T02:59:04.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>迅雷有时候会出现刚开始下载的时候速度很快，但是过几十秒，速度就只有几十 kb 的情况。正常下载太慢，循环暂停启动方法倒是可以，但是我总不能什么都不做就光坐电脑前不停点开始任务，暂停任务吧？况且我一般都是睡觉的时候挂着迅雷。</p><p>想起以前在用 windows 的时候接触过按键精灵这类模拟键鼠操作的软件，我觉得 Mac OS 平台应该也有类似的软件，但是一圈搜下来并没有找到，倒是找到了官方的脚本语言 AppleScript。它倒是可以模拟键鼠操作，只是得自己折腾。</p><p>那我能怕折腾么？于是直接开干，边在<a href="applescript://" target="_blank" rel="noopener">脚本编辑器</a>测试边 Google，没多久折腾出来了个能将就用的。后来我又</p><p>优化了一下，并且集成到了 Alfred 中。</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 如果直接用脚本编辑器执行，不需要第一行与最后行，这是要在 Alfred 中执行才需要的。</span><br><span class="line">on alfred_script(q)</span><br><span class="line">  tell application "System Events"</span><br><span class="line">tell application "Thunder"</span><br><span class="line"><span class="comment">--激活主窗口</span></span><br><span class="line">activate</span><br><span class="line"><span class="keyword">end</span> tell</span><br><span class="line"><span class="comment">--暂停一秒</span></span><br><span class="line">delay <span class="number">1</span></span><br><span class="line"><span class="comment">--全选任务，因只有选中才能暂停开始任务</span></span><br><span class="line"><span class="keyword">key</span> code <span class="number">0</span> <span class="keyword">using</span> &#123;command down&#125;</span><br><span class="line">tell process <span class="string">"Thunder"</span></span><br><span class="line">tell <span class="keyword">window</span> <span class="string">"迅雷"</span></span><br><span class="line">entire <span class="keyword">contents</span></span><br><span class="line"><span class="comment">--q 是传进来的参数，表示循环次数</span></span><br><span class="line"><span class="comment">--本代码中一次循环用时 20 + 2 秒，可根据实际情况调整</span></span><br><span class="line"><span class="comment">--q 的次数根据每次循环的时长来计算</span></span><br><span class="line"><span class="keyword">repeat</span> q times</span><br><span class="line"><span class="comment">--等待20秒后暂停任务</span></span><br><span class="line">delay <span class="number">20</span></span><br><span class="line">click button <span class="number">7</span></span><br><span class="line"><span class="comment">--暂停2秒后重新开始任务</span></span><br><span class="line">delay <span class="number">2</span></span><br><span class="line">click button <span class="number">6</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">repeat</span></span><br><span class="line"><span class="keyword">end</span> tell</span><br><span class="line"><span class="keyword">end</span> tell</span><br><span class="line"><span class="keyword">end</span> tell</span><br><span class="line"><span class="keyword">end</span> alfred_script</span><br></pre></td></tr></table></figure><p>在集成到 Alfred 的过程中踩了个坑，就是传参问题，我之前一直用 <code>{query}</code> 来获取传过来的参数，但是一直不成功，查了后原来这要直接用 <code>q</code> 就行了。其实在脚本第一行已经说明，但我一直以为是固定格式。</p><p>之后我发现使用 AppleScript 还有个好处就是脚本执行的时候可以不保持窗口最前：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-03-14-%E5%B1%8F%E5%B9%95%E5%BD%95%E5%88%B6%202020-03-14%2010.47.37.gif" alt></p><p>由于 AppleScript 的资料太少了，官方文档也很简单，没有实现我想要的效果。其实我本来的逻辑是每次循环前先判断下载列表中有没有任务，有的话就执行，没有就退出循环。但是目前还没找到获取的方法，所以只能先将就一下。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;迅雷有时候会出现刚开始下载的时候速度很快，但是过几十秒，速度就只有几十 kb 的情况。正常下载太慢，循环暂停启动方法倒是可以，但是我总不能什么都不做就光坐电脑前不停点开始任务，暂停任务吧？况且我一般都是睡觉的时候挂着迅雷。&lt;/p&gt;
-&lt;p&gt;想起以前在用 windows 的时候
-      
-    
-    </summary>
-    
-    
-      <category term="折腾" scheme="https://github.com/Tit1e/tags/%E6%8A%98%E8%85%BE/"/>
     
   </entry>
   
