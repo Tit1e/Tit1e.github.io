@@ -7,7 +7,7 @@
 <p>接下来有两种来运行命令：</p>
 <h3 id="1-直接运行命令"><a href="#1-直接运行命令" class="headerlink" title="1. 直接运行命令"></a>1. 直接运行命令</h3><p>双击 Run Script 可直接编写命令。不过编写命令前需要做一个准备工作，也是最关键的一个步骤，否则命令是无法执行的。</p>
 <p>打开终端，在终端中运行 <code>echo $PATH</code>，复制打印出来的一长串字符。</p>
-<p><img src="/Users/tit1e/Library/Application Support/typora-user-images/image-20210112203705960.png" alt="image-20210112203705960"></p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-12-123702.png" alt></p>
 <p>然后开始编辑脚本：</p>
 <p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-12-132102.png" alt></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">PATH=<span class="string">"替换成你复制出来的字符串"</span></span><br><span class="line"><span class="comment">#在这里你就可以开始编写自己的脚本了</span></span><br><span class="line"><span class="comment">#如果需要传参，那顶部中间的下拉框就选择【width input as &#123;query&#125;】</span></span><br><span class="line"><span class="built_in">cd</span> ~/Document/xxx &amp;&amp; <span class="built_in">echo</span> <span class="string">'&#123;query&#125;'</span></span><br></pre></td></tr></table></figure>
