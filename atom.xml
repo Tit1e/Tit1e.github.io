@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Tit1e/"/>
-  <updated>2021-01-12T08:03:42.738Z</updated>
+  <updated>2021-01-12T13:31:39.215Z</updated>
   <id>https://github.com/Tit1e/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Alfred 运行终端命令升级版</title>
+    <link href="https://github.com/Tit1e/2021/01/12/148-Alfred-run-bash/"/>
+    <id>https://github.com/Tit1e/2021/01/12/148-Alfred-run-bash/</id>
+    <published>2021-01-12T11:59:09.000Z</published>
+    <updated>2021-01-12T13:31:39.215Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前我写过一篇有关 Alfred 运行命令行的文章：<a href="https://evolly.one/2019/04/04/62-alfred-workflow/" target="_blank" rel="noopener">Mac 使用 Alfred 执行终端命令</a>，用之前的方法日常使用也并没有问题。但是我心里一直有一个不爽的地方，就是按之前的方法执行命令，执行期间会先打开一个终端窗口，然后执行完了终端窗口才会关闭，当然关闭也是自己写的命令，否则执行完窗口会留在桌面。不过有窗口有一个好处就是如果报错了，错误会直接显示在窗口上，如果后台执行，我就不知道到底是为什么执行失败了。但是我依旧还是想要后台运行。</p><p>今天在装一个 workflow 的时候我突然发现它可以通过 bash 运行 <code>.py</code> 文件，而且它是静默运行的，这我就奇了怪了，能运行 <code>.py</code> 那肯定也能运行 <code>.sh</code> 啊，不然没道理。然后经过我一番折腾，终于成功静默运行了终端命令。</p><p>初始创建命令的步骤我就不再复述，有需要可以去看我之前的文章，里面已经作了说明：<a href="https://evolly.one/2019/04/04/62-alfred-workflow/" target="_blank" rel="noopener">Mac 使用 Alfred 执行终端命令</a>。</p><p>创建完之后界面上应该是这个样子，<strong>注意红色方框处</strong></p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-12-122812.png" alt></p><p>按之前的方式，我会在这个方框处右键把它替换成 Terminal Command 模式，而现在，我们不需要改变它，就用 Run Script 模式。</p><p>接下来有两种来运行命令：</p><h3 id="1-直接运行命令"><a href="#1-直接运行命令" class="headerlink" title="1. 直接运行命令"></a>1. 直接运行命令</h3><p>双击 Run Script 可直接编写命令。不过编写命令前需要做一个准备工作，也是最关键的一个步骤，否则命令是无法执行的。</p><p>打开终端，在终端中运行 <code>echo $PATH</code>，复制打印出来的一长串字符。</p><p><img src="/Users/tit1e/Library/Application Support/typora-user-images/image-20210112203705960.png" alt="image-20210112203705960"></p><p>然后开始编辑脚本：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-12-132102.png" alt></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">PATH=<span class="string">"替换成你复制出来的字符串"</span></span><br><span class="line"><span class="comment">#在这里你就可以开始编写自己的脚本了</span></span><br><span class="line"><span class="comment">#如果需要传参，那顶部中间的下拉框就选择【width input as &#123;query&#125;】</span></span><br><span class="line"><span class="built_in">cd</span> ~/Document/xxx &amp;&amp; <span class="built_in">echo</span> <span class="string">'&#123;query&#125;'</span></span><br></pre></td></tr></table></figure><p>保存，然后使用热键处罚就会执行了。</p><h3 id="2-编写-sh脚本文件，然后通过运行脚本文件执行命令"><a href="#2-编写-sh脚本文件，然后通过运行脚本文件执行命令" class="headerlink" title="2. 编写 .sh脚本文件，然后通过运行脚本文件执行命令"></a>2. 编写 .sh脚本文件，然后通过运行脚本文件执行命令</h3><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-12-132151.png" alt></p><p>两种方式没太大区别，，这种方式主要要注意的有两点：</p><ol><li>.sh 文件的执行权限</li><li>参数的传递获取方式</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">PATH=<span class="string">"替换成你复制出来的字符串"</span></span><br><span class="line">terminal-notifier -message <span class="string">"<span class="variable">$1</span>"</span> -title <span class="string">"Message"</span></span><br></pre></td></tr></table></figure><p>上面脚本的作用是会弹出一个通知，标题是 Message，内容是 <code>$1</code>，这个 <code>$1</code> 就是上面图中运行时传入的 <code>{query}</code>。不了解的可以看这里的资料：<a href="https://www.runoob.com/linux/linux-shell-passing-arguments.html" target="_blank" rel="noopener">Shell 传递参数</a>。</p><p>在编辑器新建一个文件，输入好脚本，先保存至你能找到的地方。然后打开 workflow 所在文件夹位置。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-12-132256.png" alt></p><p>将保存的脚本文件复制到文件夹中</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-12-130247.png" alt></p><p>然后打开终端，输入 <code>chmod 777</code>，再将脚本文件拖入终端，命令中会自动填入路径，enter。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-12-130345.png" alt></p><p>最终效果：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-12-%E5%B1%8F%E5%B9%95%E5%BD%95%E5%88%B6%202021-01-12%2021.07.56.mov.gif" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;之前我写过一篇有关 Alfred 运行命令行的文章：&lt;a href=&quot;https://evolly.one/2019/04/04/62-alfred-workflow/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Mac 使用 Alfred 执行终端命令
+      
+    
+    </summary>
+    
+    
+      <category term="折腾" scheme="https://github.com/Tit1e/tags/%E6%8A%98%E8%85%BE/"/>
+    
+      <category term="mac" scheme="https://github.com/Tit1e/tags/mac/"/>
+    
+  </entry>
   
   <entry>
     <title>将本地某个文件夹备份或同步至群晖</title>
@@ -496,29 +521,6 @@
     
     
       <category term="小程序" scheme="https://github.com/Tit1e/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>element-ui el-table 表格高度自适应问题解决方案</title>
-    <link href="https://github.com/Tit1e/2020/04/14/128-element-ui-table-auto-height/"/>
-    <id>https://github.com/Tit1e/2020/04/14/128-element-ui-table-auto-height/</id>
-    <published>2020-04-14T13:14:40.000Z</published>
-    <updated>2020-08-27T15:14:19.171Z</updated>
-    
-    <content type="html"><![CDATA[<p>工作中由于公司业务需要，要求 table 做到整个 table 始终能在页面上完全显示， head 固定，body 超出滚动，由于公司使用的是 element-ui，el-table 组件提供了 height 属性，但是这个属性的值必须是具体的像素，因此，当页面的窗口大小发生变化时，想要表格高度自适应，一般的做法就是监听窗口大小是否改变，如果改变了就重新计算 table 的高度，然后重新设置。我之前的做法是这样的：</p><p>我们公司基本都是后台应用，结构差不多就是这个样子，菜单与顶栏的宽度与高度是固定的，而且菜单部分与表格高度的计算其实没有关系。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-04-14-134209.png" alt></p><p>因此我计算表格高度的时候，一般都是：</p><p>整个网页的高度 - 顶栏的高度 - 各种 margin，padding 的高度 = 表格高度</p><p>然后监听窗口的变化：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'resize'</span>, () =&gt; &#123;</span><br><span class="line"><span class="comment">//重新计算高度</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure><p>直到后来我遇到了这个需求：</p><p>页面分为左右两部分，可拖动改变左侧部分的宽度，右侧还是自适应。乍一看这个左侧改变宽度跟右侧好像没什么关系，原来那套也适用啊，但是再仔细一想，左侧改变了有可能导致右侧筛选条件宽度不够而换行，一换行筛选条件的高度就改变了，这时候是需要重新计算高度的，但是上面监听的代码只监听窗口大小改变，而现在的情况窗口的大小并没有被改变，只是 div 的宽度发生了变化，后来我 google 了一圈，发现了 <a href="https://github.com/marcj/css-element-queries">css-element-queries</a> 这个库中的 <code>ResizeSensor</code>  这个类可以实现对元素大小改变的监听，使用方法也很简单：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * element 需要监听的元素</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">new</span> ResizeSensor(element, () =&gt; &#123;</span><br><span class="line"><span class="comment">//callback</span></span><br><span class="line">  <span class="comment">//重新计算高度</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure><p>并且在这次调整的过程中，我想到了用 flex 属性来让右侧的筛选条件跟 table 自行分配空间，因为这类表格的页面结构基本是固定的，上面是筛选条件，下面是表格，于是我封装了一个  <code>&lt;form-page&gt;</code> 组件，结构就是大概 是这样：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-04-14-141421.png" alt></p><p>这个结构下，我就不用再去关心除了筛选条件的高度外我还需要减去多少的额外高度，我只要关心我的 table slot 区域有多少高度，我就把 table 设为多少高度就可以了。</p><p>当然内容展示区域的高度是需要计算过的，但是这个只要在全局样式中用 <code>calc</code> 计算一次高度就可以了。</p><p>下面是 demo 的演示效果：</p><video src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-04-14-element-ui-table-auto-height.mp4" style="width: 100%" controls></video><p><a href="https://github.com/Tit1e/element-ui-table-auto-height">demo 源码</a></p><p><strong>2020年8月27日更新：</strong></p><p>目前 2.13 版本的 table 已经支持height=“100%”，所以可以放弃上面的实现方式了。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;工作中由于公司业务需要，要求 table 做到整个 table 始终能在页面上完全显示， head 固定，body 超出滚动，由于公司使用的是 element-ui，el-table 组件提供了 height 属性，但是这个属性的值必须是具体的像素，因此，当页面的窗口大小发
-      
-    
-    </summary>
-    
-    
-      <category term="学习" scheme="https://github.com/Tit1e/tags/%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
