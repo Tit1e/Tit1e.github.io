@@ -1,0 +1,16 @@
+<!DOCTYPE html><html lang="en"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>js 使用 dispatchEvent 主动触发事件 · Tit1e</title><meta name="description" content="js 使用 dispatchEvent 主动触发事件 - Tit1e"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://github.com/Tit1e/atom.xml" title="Tit1e"></head><body><div class="wrap"><header><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">主页</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">过往</a></li><li class="nav-list-item"><a href="https://album.animalcrossing.life" target="_blank" class="nav-list-link">摄影集</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">订阅</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">js 使用 dispatchEvent 主动触发事件</h1><div class="post-info">Jan 13, 2021</div><div class="post-content"><p>首先方放上 MDN 文档：</p>
+<blockquote>
+<p>MDN：<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/dispatchEvent" target="_blank" rel="noopener">EventTarget.dispatchEvent</a></p>
+</blockquote>
+<p>事情是这样的，前几天老大提了个需求，公司业务系统上有个地方需要录入带圈的数字：①②③④⑤⑥⑦⑧⑨⑩。但这这个这种数字对于计算机水平不一的录入人员来说，有的人根本不知道怎么输入，于是老大要我做个快捷的录入方式，在页面上放一排按钮，用户点击按钮就可以把对应数组插入到光标所在的位置。</p>
+<p>在做这个需求的过程中我就发现了两个问题：</p>
+<ol>
+<li>直接改变 input、textarea 的 value 值，会造成 value 与 v-model 的值不同步。</li>
+<li>el-input 的一个坑，就是改变 el-input 的 value 在视图上会更新，但实际的 v-model 绑定的值并不会更新。</li>
+</ol>
+<p>后来发现只要在改变完值之后再手动改变一下输入框中的内容就没问题了，比如打个空格。</p>
+<p>但是这个步骤肯定不能让用户来做，所以就需要用到 dispatchEvent 这个东西了。</p>
+<p>使用很简单：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> el = <span class="built_in">document</span>.querySelector(<span class="string">'#elInput'</span>)</span><br><span class="line"><span class="keyword">var</span> event = <span class="keyword">new</span> InputEvent(<span class="string">'input'</span>)</span><br><span class="line">el.dispatchEvent(event)</span><br></pre></td></tr></table></figure>
+<p>查看 <a href="https://evolly.one/demos/149-dispatchEvent/" target="_blank" rel="noopener">demo</a>。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2021/01/12/148-Alfred-run-bash/" class="next">下一篇</a></div><div class="copyright"><p>© 2016 - 2021 <a href="https://github.com/Tit1e" target="_blank">Tit1e</a>, powered by <a href="https://github.com/Tit1e/hexo-theme-simple" target="_blank">hexo-theme-simple</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></body></html>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Tit1e/"/>
-  <updated>2021-01-13T12:51:48.423Z</updated>
+  <updated>2021-01-13T14:41:48.356Z</updated>
   <id>https://github.com/Tit1e/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>js 使用 dispatchEvent 主动触发事件</title>
+    <link href="https://github.com/Tit1e/2021/01/13/149-js-dispatchEvent/"/>
+    <id>https://github.com/Tit1e/2021/01/13/149-js-dispatchEvent/</id>
+    <published>2021-01-13T13:26:33.000Z</published>
+    <updated>2021-01-13T14:41:48.356Z</updated>
+    
+    <content type="html"><![CDATA[<p>首先方放上 MDN 文档：</p><blockquote><p>MDN：<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/dispatchEvent" target="_blank" rel="noopener">EventTarget.dispatchEvent</a></p></blockquote><p>事情是这样的，前几天老大提了个需求，公司业务系统上有个地方需要录入带圈的数字：①②③④⑤⑥⑦⑧⑨⑩。但这这个这种数字对于计算机水平不一的录入人员来说，有的人根本不知道怎么输入，于是老大要我做个快捷的录入方式，在页面上放一排按钮，用户点击按钮就可以把对应数组插入到光标所在的位置。</p><p>在做这个需求的过程中我就发现了两个问题：</p><ol><li>直接改变 input、textarea 的 value 值，会造成 value 与 v-model 的值不同步。</li><li>el-input 的一个坑，就是改变 el-input 的 value 在视图上会更新，但实际的 v-model 绑定的值并不会更新。</li></ol><p>后来发现只要在改变完值之后再手动改变一下输入框中的内容就没问题了，比如打个空格。</p><p>但是这个步骤肯定不能让用户来做，所以就需要用到 dispatchEvent 这个东西了。</p><p>使用很简单：</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> el = <span class="built_in">document</span>.querySelector(<span class="string">'#elInput'</span>)</span><br><span class="line"><span class="keyword">var</span> event = <span class="keyword">new</span> InputEvent(<span class="string">'input'</span>)</span><br><span class="line">el.dispatchEvent(event)</span><br></pre></td></tr></table></figure><p>查看 <a href="https://evolly.one/demos/149-dispatchEvent/" target="_blank" rel="noopener">demo</a>。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;首先方放上 MDN 文档：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;MDN：&lt;a href=&quot;https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/dispatchEvent&quot; target=&quot;_blank
+      
+    
+    </summary>
+    
+    
+      <category term="学习" scheme="https://github.com/Tit1e/tags/%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="js" scheme="https://github.com/Tit1e/tags/js/"/>
+    
+  </entry>
   
   <entry>
     <title>Alfred 运行终端命令升级版</title>
@@ -491,30 +518,6 @@
         &lt;p&gt;小程序的转发按钮默认是关闭的，需要人为打开，为小程序更方便地传播，所以我需要给小程序加上这个功能。&lt;/p&gt;
 &lt;p&gt;我的目的只是方便传播小程序，需求跟其他小程序相比没那么复杂，分享后我只需固定进入小程序首页。&lt;/p&gt;
 &lt;p&gt;小程序在 Page 注册小程序页面时，有一个 &lt;a 
-      
-    
-    </summary>
-    
-    
-      <category term="小程序" scheme="https://github.com/Tit1e/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>uni-app 小程序设置自定义字体</title>
-    <link href="https://github.com/Tit1e/2020/04/27/129-mini-program-font/"/>
-    <id>https://github.com/Tit1e/2020/04/27/129-mini-program-font/</id>
-    <published>2020-04-27T14:21:56.000Z</published>
-    <updated>2020-04-28T15:21:37.954Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近在开发动森的一款小程序，到目前为止踩了不少坑，今天记录一下小程序引入自定义字体的方式。后续会陆续更新其他踩坑记录。</p><p>首先，小程序是支持使用自定义字体的，使用 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/font/wx.loadFontFace.html" target="_blank" rel="noopener">wx.loadFontFace()</a> 就可以引入字体，但是使用这个 api 有一些限制：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-04-27-143333.png" alt></p><p>需要特别注意的点有：</p><p>第一点：字体格式，保险起见使用 ttf 格式，如果不是 ttf 格式，可以在 <a href="https://transfonter.org/" target="_blank" rel="noopener">https://transfonter.org/</a> 在线转一下。</p><p>第二点：字体链接必须是 <strong>https</strong>，意味着不支持引入本地字体。</p><p>第三点：链接必须<strong>同源</strong>或者开启了 <strong>cors</strong> 支持。</p><p>其他几点注意点对使用有影响，但没以上三点重要。</p><p>我将字体上传到了腾讯的对象存储上，因此我要在存储桶的设置中对 servicewechat.com 开启 cors 支持：</p><p>1、登录腾讯云，进入对象存储控制台</p><p>2、点击<strong>【存储桶列表】</strong>菜单</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-04-27-144352.png" alt></p><p>3、点击上传了字体的存储桶，进入存储桶详情</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-04-27-144625.png" alt></p><p>4、点击左侧<strong>【基础配置】</strong>菜单</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-04-27-144749.png" alt></p><p>5、找到<strong>【跨域访问CORS设置】</strong>卡片，点击添加规则，照下图填写表单并保存，过一会儿就会生效。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-04-27-144838.png" alt></p><p>官方文档上说如果需要全局支持字体的话 <code>wx.loadFontFace</code> 需要在 <code>app.js</code> 中调用并且设置 <code>global</code> 为 <code>true</code>。</p><p>并且使用 <code>global</code> 属性对调试基础库版本有要求，需要 2.10.0 以上，否则字体只会在调用这个 api 的页面生效。<img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-04-27-150114.png" alt></p><p>还有注意中提到的第四点也注意一下，可能会有个报错，但是字体实际已经生效，这个报错可以忽略。</p><p>但是我使用的是 <code>uni-app</code>，我尝试写在 <code>main.js</code> 入口文件中，但是并没有生效，不过 <code>uni-app</code> 支持 vue 的 mixins，创建一个font.js：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// @/mixins/font.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">onLoad() &#123;</span><br><span class="line">uni.loadFontFace(&#123;</span><br><span class="line">family: <span class="string">'DFYuanW9'</span>,</span><br><span class="line">source: <span class="string">'url("https://xxxxxxx.ttf")'</span>,</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在 <code>main.js</code> 中：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> mixin <span class="keyword">from</span> <span class="string">'@/mixins/font.js'</span></span><br><span class="line"></span><br><span class="line">Vue.mixin(mixin)</span><br></pre></td></tr></table></figure><p>并在全局 css 中使用字体：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">page</span>&#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">'DFYuanW9'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这样每个页面就都会生效了。</p><p>下面是字体使用效果：</p><p>不使用字体：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-04-27-IMG_2437.PNG" alt></p><p>使用字体：</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-04-27-IMG_2436.PNG" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;最近在开发动森的一款小程序，到目前为止踩了不少坑，今天记录一下小程序引入自定义字体的方式。后续会陆续更新其他踩坑记录。&lt;/p&gt;
-&lt;p&gt;首先，小程序是支持使用自定义字体的，使用 &lt;a href=&quot;https://developers.weixin.qq.com/minipro
       
     
     </summary>
