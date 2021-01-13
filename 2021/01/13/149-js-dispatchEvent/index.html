@@ -2,7 +2,7 @@
 <blockquote>
 <p>MDN：<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/dispatchEvent" target="_blank" rel="noopener">EventTarget.dispatchEvent</a></p>
 </blockquote>
-<p>事情是这样的，前几天老大提了个需求，公司业务系统上有个地方需要录入带圈的数字：①②③④⑤⑥⑦⑧⑨⑩。但这这个这种数字对于计算机水平不一的录入人员来说，有的人根本不知道怎么输入，于是老大要我做个快捷的录入方式，在页面上放一排按钮，用户点击按钮就可以把对应数组插入到光标所在的位置。</p>
+<p>事情是这样的，前几天老大提了个需求，公司业务系统上有个地方需要录入带圈的数字：①②③④⑤⑥⑦⑧⑨。但这这个这种数字对于计算机水平不一的录入人员来说，有的人根本不知道怎么输入，于是老大要我做个快捷的录入方式，在页面上放一排按钮，用户点击按钮就可以把对应数组插入到光标所在的位置。</p>
 <p>在做这个需求的过程中我就发现了两个问题：</p>
 <ol>
 <li>直接改变 input、textarea 的 value 值，会造成 value 与 v-model 的值不同步。</li>
