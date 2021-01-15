@@ -99,7 +99,8 @@ abbr[title] {
  */
 b,
 strong {
-  font-weight: bold; }
+  font-weight: bold;
+  -webkit-text-stroke: 1px #34495e; }
 
 /**
  * Address styling not present in Safari and Chrome.
