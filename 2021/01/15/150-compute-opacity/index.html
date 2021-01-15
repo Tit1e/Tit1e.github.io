@@ -2,7 +2,7 @@
 <p>在这次的设计稿上我发现了这样的 <code>tag</code> 样式：</p>
 <p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-15-140059.png" alt></p>
 <p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-15-140134.png" alt></p>
-<p>其实一眼就能看出来实现的原理，背景色其实就是跟着文字的颜色做个淡化。</p>
+<p>其实一眼就能看出来实现的思路，背景色其实就是跟着文字的颜色做个淡化。</p>
 <p>封装组件的话，主要思路就是：写个 <code>&lt;view&gt;</code>，然后留个 <code>&lt;slot&gt;</code> 插槽用于传入文本，然后写一些样式，最后有个 <code>prop</code> 用于接受一个颜色值，给文字直接设置传入的颜色，然后给 <code>tag</code> 背景色设一个传入颜色一定透明度的色值。我的设计稿中，这个不透明度为 10%。</p>
 <p>主要问题是：<strong>这个一定透明度的色值怎么计算？</strong></p>
 <p>首先，前端的颜色格式有两种，一种是 RGB 格式：rgb(255, 255, 255)；另一种是十六进制：#ffffff。</p>
