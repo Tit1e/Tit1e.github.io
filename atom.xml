@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Tit1e/"/>
-  <updated>2021-01-15T14:55:08.087Z</updated>
+  <updated>2021-01-16T06:11:34.899Z</updated>
   <id>https://github.com/Tit1e/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>el-table 自定义 header 中 el-input 绑定失效问题</title>
+    <link href="https://github.com/Tit1e/2021/01/16/151-el-table-header/"/>
+    <id>https://github.com/Tit1e/2021/01/16/151-el-table-header/</id>
+    <published>2021-01-16T05:19:31.000Z</published>
+    <updated>2021-01-16T06:11:34.899Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前有个需要在 element 的 table 的表头进行搜索，这个例子在 element 的文档上是有的，所以我写的时候也就没想太多，直接就按着官网上的例子写，代码很简单，类似这样：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">el-table-column</span> <span class="attr">prop</span>=<span class="string">"name"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">template</span> <span class="attr">slot</span>=<span class="string">"header"</span> <span class="attr">slot-scope</span>=<span class="string">"scope"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">el-input</span></span></span><br><span class="line"><span class="tag"><span class="attr">v-model</span>=<span class="string">"search"</span></span></span><br><span class="line"><span class="tag"><span class="attr">size</span>=<span class="string">"mini"</span></span></span><br><span class="line"><span class="tag"><span class="attr">placeholder</span>=<span class="string">"输入关键字搜索"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-table-column</span>&gt;</span></span><br></pre></td></tr></table></figure><p>但是因为我开了 eslint，上面我写了 <code>slot-scope=&quot;scope&quot;</code> 但是下面我并没有用到 scope ，所以编辑器就有波浪线提醒我，我看着别扭，并且想着这行代码删了应该也没有影响，因为 search 是现在当前页面的，于是就把这段代码删了，然后去测试，结果发现文字怎么也输入不上去，而且控制台也不报错，我仔仔细细看了一遍，看是不是拼写什么的有没有问题，但一圈检查下来发现也没问题。</p><p>最后我只能跟官网的代码去对比，发现差了 <code>slot-scope=&quot;scope&quot;</code> 这个属性，我把这个属性加上，果然就正常了。</p><p>查看 <a href="https://evolly.one/demos/151-el-table-header/" target="_blank" rel="noopener">demo</a>。</p><p>翻阅了element 跟 vue 的文档也并没有这方面的说明。因为之前也在 slot 中写过类似功能的代码，但是并没有出什么问题，因为代码中用到的绑定值，要筛选的列表值都是定义在当前页面并且完全没有用到 scope 中的值。所以原因我目前也还不知道，只能先把这个坑记录下来。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;之前有个需要在 element 的 table 的表头进行搜索，这个例子在 element 的文档上是有的，所以我写的时候也就没想太多，直接就按着官网上的例子写，代码很简单，类似这样：&lt;/p&gt;
+&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;t
+      
+    
+    </summary>
+    
+    
+      <category term="学习" scheme="https://github.com/Tit1e/tags/%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="vue" scheme="https://github.com/Tit1e/tags/vue/"/>
+    
+      <category term="element" scheme="https://github.com/Tit1e/tags/element/"/>
+    
+  </entry>
   
   <entry>
     <title>计算不透明度对应的十六进制数值</title>
@@ -502,30 +530,6 @@
     
     
       <category term="vue" scheme="https://github.com/Tit1e/tags/vue/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>批量删除微博，可自定义删除内容</title>
-    <link href="https://github.com/Tit1e/2020/05/23/131-delete-weibo/"/>
-    <id>https://github.com/Tit1e/2020/05/23/131-delete-weibo/</id>
-    <published>2020-05-23T07:36:40.000Z</published>
-    <updated>2020-05-23T08:33:51.718Z</updated>
-    
-    <content type="html"><![CDATA[<p>首先浏览器上登录微博，浏览器要求： QQ浏览器，360极速浏览器，谷歌浏览器，火狐浏览器等都行，可以先试试，不行再换。Safari我记得默认是关闭调试模式的，</p><p>Windows 用户直接按 F12 打开控制台，或者在网页上右键，会有【元素审查】、【检查】类似这种的菜单项，打开它，正常情况浏览器内会出现一个窗口。</p><p>然后点击【console】标签页，复制代码，在箭头在的位置粘贴代码，如果你要按条件删除，那就先编辑好条件，然后按回车。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-05-23-082341.png" alt></p><p>根据实际使用来说，删除要等个十来秒才会执行，当页面在闪的时候说明在删除了。</p><p>使用的时候自动跳到下一页好像有点问题。如果页面长时间没反应，那就刷新一下页面，再粘贴执行一遍代码。</p><p>这是按条件删除微博的代码：</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">var</span> s = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>)</span><br><span class="line">s.setAttribute(</span><br><span class="line">  <span class="string">'src'</span>,</span><br><span class="line">  <span class="string">'https://lib.sinaapp.com/js/jquery/2.0.3/jquery-2.0.3.min.js'</span></span><br><span class="line">)</span><br><span class="line">s.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> index = <span class="number">0</span></span><br><span class="line">  setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!$(<span class="string">'div[action-type="feed_list_item"]'</span>).length) &#123;</span><br><span class="line">      <span class="comment">// 删完符合条件的微博，翻到下一页</span></span><br><span class="line">      $(<span class="string">'a.next'</span>).click()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> firstItem = $(<span class="string">'div[action-type="feed_list_item"]'</span>)[index]</span><br><span class="line">      <span class="keyword">const</span> text = $(firstItem).find(<span class="string">'.WB_feed_detail .WB_detail div[node-type="feed_list_content"]'</span>).text()</span><br><span class="line">      <span class="comment">// 删除微博正文中含有 “今天” 两个字的微博</span></span><br><span class="line">      <span class="keyword">const</span> needDelete = text.indexOf(<span class="string">'今天'</span>) &gt; <span class="number">0</span></span><br><span class="line">      <span class="comment">// 如果要匹配多个：</span></span><br><span class="line">      <span class="comment">// 下面这样写会把微博正文中含有 “今天” 或者 “第一” 的微博删除，含有其中之一就会被删</span></span><br><span class="line">      <span class="comment">// const needDelete = text.indexOf('今天') &gt; 0 || text.indexOf('第一') &gt; 0</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// 这样写是将微博正文中含有 “今天” 和 “第一” 的微博删除，必须两个都包含才会被删</span></span><br><span class="line">      <span class="comment">// const needDelete = text.indexOf('今天') &gt; 0 &amp;&amp; text.indexOf('第一') &gt; 0</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span>(needDelete)&#123;</span><br><span class="line">        $(firstItem).find(<span class="string">'a[action-type="feed_list_delete"]'</span>)[<span class="number">0</span>].click()</span><br><span class="line">        $(firstItem).find(<span class="string">'a[action-type="ok"]'</span>)[<span class="number">0</span>].click()</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        index += <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 滚动到底部自动加载</span></span><br><span class="line">    $(<span class="string">'html, body'</span>).animate(&#123; <span class="attr">scrollTop</span>: $(<span class="built_in">document</span>).height() &#125;, <span class="string">'slow'</span>)</span><br><span class="line">  &#125;, <span class="number">800</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.head.appendChild(s)</span><br></pre></td></tr></table></figure><p>这是删除所有微博的代码：<a href="https://greasyfork.org/en/scripts/14709-weibored-js/code" target="_blank" rel="noopener">来源</a></p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> s = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">s.setAttribute(</span><br><span class="line">  <span class="string">'src'</span>,</span><br><span class="line">  <span class="string">'https://lib.sinaapp.com/js/jquery/2.0.3/jquery-2.0.3.min.js'</span></span><br><span class="line">);</span><br><span class="line">s.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!$(<span class="string">'a[action-type="feed_list_delete"]'</span>)) &#123;</span><br><span class="line">      $(<span class="string">'a.next'</span>).click();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      $(<span class="string">'a[action-type="feed_list_delete"]'</span>)[<span class="number">0</span>].click();</span><br><span class="line">      $(<span class="string">'a[action-type="ok"]'</span>)[<span class="number">0</span>].click();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// scroll bottom let auto load</span></span><br><span class="line">    $(<span class="string">'html, body'</span>).animate(&#123; <span class="attr">scrollTop</span>: $(<span class="built_in">document</span>).height() &#125;, <span class="string">'slow'</span>);</span><br><span class="line">  &#125;, <span class="number">800</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">document</span>.head.appendChild(s);</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;首先浏览器上登录微博，浏览器要求： QQ浏览器，360极速浏览器，谷歌浏览器，火狐浏览器等都行，可以先试试，不行再换。Safari我记得默认是关闭调试模式的，&lt;/p&gt;
-&lt;p&gt;Windows 用户直接按 F12 打开控制台，或者在网页上右键，会有【元素审查】、【检查】类似这种
-      
-    
-    </summary>
-    
-    
-      <category term="折腾" scheme="https://github.com/Tit1e/tags/%E6%8A%98%E8%85%BE/"/>
     
   </entry>
   
