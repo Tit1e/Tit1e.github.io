@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="en"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>Notion 分享页面使用自定义域名 · Tit1e</title><meta name="description" content="Notion 分享页面使用自定义域名 - Tit1e"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://github.com/Tit1e/atom.xml" title="Tit1e"></head><body><div class="wrap"><header><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">主页</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">过往</a></li><li class="nav-list-item"><a href="https://album.animalcrossing.life" target="_blank" class="nav-list-link">摄影集</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">订阅</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Notion 分享页面使用自定义域名</h1><div class="post-info">Jan 21, 2021</div><div class="post-content"><p><a href="https://www.notion.so/" target="_blank" rel="noopener">Notion</a> 近几年突然火了起来，我也试用了一下，的确非常厉害，但是对我来说好像过于笨重，all in one 是它的优点，也是它的缺点。它的特点我就不过多介绍了，网上一搜一大堆，因为它天生的模块化与自适应的特点，很多人直接使用它来作为博客，但是有个缺点，就是域名只能使用官方的 notion.so，官方说日后会支持自定义域名，不过现在不是还没出来么，所以先自己折腾一下，网上搜了一圈，终于搞定了，记录一下：</p>
+<p>用的方案是使用 <a href="https://dash.cloudflare.com/" target="_blank" rel="noopener">Cloudflare</a> 的 Web Workers 为 Notion 的 HTTP 请求进行手动改写。</p>
+<p>首先我们需要将域名的域名服务器设置为 Cloudflare 的域名服务器，这样就可以使用 Cloudflare 的 DNS 服务了。</p>
+<p>注册 Cloudflare ，然后在这里添加自己的域名：</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-21-134634.png" alt></p>
+<p>添加后下方就会显示已添加的域名，点击已添加的域名进入设置页面。</p>
+<p>切换到 dns 页面，添加一条 CNAME 记录，如果你自己的二级域名为 blog.xxx.com，那么名称那就填 blog，目标填 Notion 的域名，保存。</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-21-134938.png" alt></p>
+<p>在这个页面的下方有 <strong>Cloudflare 名称服务器</strong></p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-21-135438.png" alt></p>
+<p>我们需要把原本的域名服务器替换为这个，我的域名服务商为 <a href="https://sg.godaddy.com/zh" target="_blank" rel="noopener">godaddy</a>，在 DNS 管理页面会有设置域名服务器的入口，设置好就可以了。</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-21-135559.png" alt></p>
+<p>设置完后我们回到 Cloudflare，切换到 Workers。</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-21-135710.png" alt></p>
+<p>点击管理 Workers。</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-21-135820.png" alt></p>
+<p>创建 Worker。</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-21-135920.png" alt></p>
+<p>然后打开 <a href="https://fruitionsite.com/" target="_blank" rel="noopener">https://fruitionsite.com</a>，按图片填上信息，然后一键复制代码。这位老哥的页面其实也是 Notion 的公开页。</p>
+<p>使用这个脚本是因为它生成的脚本访问自定义域名的时候不会有后缀，我一开始找的脚本在访问自己的域名时，后面还有一串后缀。用这个就不会有。</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-21-140400.png" alt></p>
+<p>打个岔，Notion 地址获取方法：</p>
+<p><img src="/Users/tit1e/Library/Application Support/typora-user-images/image-20210121220539670.png" alt="image-20210121220539670"></p>
+<p>然后将复制的脚本代码粘贴到创建的 Worker 中，部署并保存。</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-21-140814.png" alt></p>
+<p>然后回到 Workers 页面，添加路由。</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-21-140913.png" alt></p>
+<p>按下图填写，保存。</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-01-21-141119.png" alt></p>
+<p>这时候你再去访问自己的域名，看到的就是你 Notion 的页面了。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2021/01/16/151-el-table-header/" class="next">下一篇</a></div><div class="copyright"><p>© 2016 - 2021 <a href="https://github.com/Tit1e" target="_blank">Tit1e</a>, powered by <a href="https://github.com/Tit1e/hexo-theme-simple" target="_blank">hexo-theme-simple</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></body></html>
