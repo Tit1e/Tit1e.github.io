@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Tit1e/"/>
-  <updated>2021-01-21T14:17:15.258Z</updated>
+  <updated>2021-01-26T11:48:53.313Z</updated>
   <id>https://github.com/Tit1e/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mac 时间机器 Time Machine 备份提速</title>
+    <link href="https://github.com/Tit1e/2021/01/26/153-time-machine-speed/"/>
+    <id>https://github.com/Tit1e/2021/01/26/153-time-machine-speed/</id>
+    <published>2021-01-26T11:36:42.000Z</published>
+    <updated>2021-01-26T11:48:53.313Z</updated>
+    
+    <content type="html"><![CDATA[<p>Time Machine（时间机器）是 Mac 的一大杀器。它的存在让不少人的数据失而复得，但是备份的时候速度不是特别理想，特别是第一次备份或者很长一段时间没有备份，电脑中文件改动较多的时候。那有没有方法可以让传输速度变快点呢？当然是有的，打开终端，输入下面的命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl debug.lowpri_throttle_enabled=0</span><br></pre></td></tr></table></figure><p>要注意的是：</p><p><strong>1. 上面的命令只会加快备份文件传输至备份硬盘，并不会缩短时间机器分析文件、清理旧备份的时间。</strong></p><p><strong>2. 因为解除了限制，所以时间机器占用的资源、硬盘使用率会相应的升高，在此期间使用 Mac 可能会感觉到 Mac 变卡。</strong></p><p>所以最好空闲的时候解除限制，以免影响正常使用，备份完毕就关闭该模式：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl debug.lowpri_throttle_enabled=1</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Time Machine（时间机器）是 Mac 的一大杀器。它的存在让不少人的数据失而复得，但是备份的时候速度不是特别理想，特别是第一次备份或者很长一段时间没有备份，电脑中文件改动较多的时候。那有没有方法可以让传输速度变快点呢？当然是有的，打开终端，输入下面的命令：&lt;/p&gt;
+      
+    
+    </summary>
+    
+    
+      <category term="Mac" scheme="https://github.com/Tit1e/tags/Mac/"/>
+    
+      <category term="技巧" scheme="https://github.com/Tit1e/tags/%E6%8A%80%E5%B7%A7/"/>
+    
+  </entry>
   
   <entry>
     <title>Notion 分享页面使用自定义域名</title>
@@ -504,31 +529,6 @@
       <category term="学习" scheme="https://github.com/Tit1e/tags/%E5%AD%A6%E4%B9%A0/"/>
     
       <category term="webpack" scheme="https://github.com/Tit1e/tags/webpack/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>el-tree 更新节点信息</title>
-    <link href="https://github.com/Tit1e/2020/08/06/133-el-tree-update-node/"/>
-    <id>https://github.com/Tit1e/2020/08/06/133-el-tree-update-node/</id>
-    <published>2020-08-06T14:23:07.000Z</published>
-    <updated>2020-08-06T14:56:46.552Z</updated>
-    
-    <content type="html"><![CDATA[<p>公司组织机构管理中需要用到 <code>element-u</code> 的 <code>el-tree</code> 组件，会对公司的结构进行添加或删除，<code>el-tree</code> 节点的加载方式有两种：一种是直接传入所有的节点信息，当然前提是先整理好上下级关系；另一种就是异步动态加载节点。</p><p>如果采用第一种方式因为所有数据都已经被加载，所以新增、编辑、删除节点后都可以在源数据上进行更改操作。而用异步加载的方式，新增，可以在新增成功后让后端返回新增节点的 id，然后通过组件提供的 <code>append</code> 、<code>insertBefore</code> 或 <code>insertAfter</code> 直接追加节点，删除可以通过 <code>remove</code> 直接移除，但是如果是编辑的话，需要更新节点信息，而组件并没有提供这样的方法，如果重新加载整个树，那树又要从第一级重新展开。最后我想到的方法是模拟父节点重新加载：</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">refreshNode(id) &#123;</span><br><span class="line">  <span class="comment">// 先根据节点 id 获取到节点的父节点</span></span><br><span class="line">  <span class="keyword">const</span> node = <span class="keyword">this</span>.$refs.elTree.getNode(id)</span><br><span class="line">  <span class="comment">// 将父节点的 loaded 设置为 false, 这样在展开父节点的时候，就会重新请求子节点</span></span><br><span class="line">  node.parent.loaded = <span class="literal">false</span></span><br><span class="line">  <span class="comment">// 展开父节点</span></span><br><span class="line">  node.parent.expand()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这样就完成了节点的更新，也不用重载整个树。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;公司组织机构管理中需要用到 &lt;code&gt;element-u&lt;/code&gt; 的 &lt;code&gt;el-tree&lt;/code&gt; 组件，会对公司的结构进行添加或删除，&lt;code&gt;el-tree&lt;/code&gt; 节点的加载方式有两种：一种是直接传入所有的节点信息，当然前提是先整理好上下级
-      
-    
-    </summary>
-    
-    
-      <category term="vue" scheme="https://github.com/Tit1e/tags/vue/"/>
-    
-      <category term="element-ui" scheme="https://github.com/Tit1e/tags/element-ui/"/>
     
   </entry>
   

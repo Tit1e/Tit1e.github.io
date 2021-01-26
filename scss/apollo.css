@@ -439,6 +439,10 @@ table {
 
 header {
   min-height: 60px; }
+  header #busuanzi_container_site_pv, header #busuanzi_container_site_uv {
+    display: none !important;
+    opacity: 0;
+    color: transparent; }
   header .logo-link {
     float: left; }
   header .nav {
