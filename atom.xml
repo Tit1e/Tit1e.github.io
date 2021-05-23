@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Tit1e/"/>
-  <updated>2021-05-06T14:59:26.586Z</updated>
+  <updated>2021-05-23T10:07:44.693Z</updated>
   <id>https://github.com/Tit1e/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Kindle2Flomo</title>
+    <link href="https://github.com/Tit1e/2021/05/23/157-kindle-to-flomo/"/>
+    <id>https://github.com/Tit1e/2021/05/23/157-kindle-to-flomo/</id>
+    <published>2021-05-23T08:36:56.000Z</published>
+    <updated>2021-05-23T10:07:44.693Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-05-23-Xnip2021-05-23_17-43-21.png" alt></p><p>作为 Kindle 用户，一开始的时候只在 Kindle 上做标记，做完标记后完全不知道怎么整理怎么回顾。</p><p>后来无意中接触到了 Klib，这是一款 Kindle 笔记整理软件，开始我兴致冲冲地将所有 Kindle 中的笔记全导入其中，又认认真真整理一遍。但是然后呢？软件只在电脑上有，而且它也仅仅只是个笔记整理软件，除了整理笔记，不再有其他功能。这样一款软件我开启的频率可想而知。所以虽然我有了 Kindle 笔记的整理软件，但软件都吃灰，软件中的笔记自然依旧是吃灰状态。</p><p>当然，如果单纯作为一款笔记整理软件，Klib 我觉得是非常优秀的。只是它已经满足不了我目前的需求。</p><p>半年前，我发现了一款刚起步的软件：<a href="https://flomoapp.com/register2/?MTAzNDE" target="_blank" rel="noopener">flomo</a>。我刚接触的时候它只有网页版与微信公众号，后来逐渐有了 PWA，Mac 客户端，再后来有了iOS 与安卓的客户端，期间开放了 api，api 开放后，各种插件都冒了出来，浏览器插件，快捷指令，telegram机器人等。当然我这个工具也是。</p><p><a href="https://flomoapp.com/register2/?MTAzNDE" target="_blank" rel="noopener">flomo</a> 的这两个特色是最吸引我的：轻量与定时回顾。首先 <a href="https://flomoapp.com/register2/?MTAzNDE" target="_blank" rel="noopener">flomo</a> 是一个非常轻量的软件，没有复杂的设计、文本编辑器，简简单单，软件进去就是 MEMO，输入框只支持简单的项目符号，再无其他。使用时不需要很强的“仪式感”，想写什么写什么。定时回顾是你可以在软件中设置某个时间点，会通过公众号定时向你推送你之前记录的 MEMO。后来有个移动客户端后，小组件也有了这个功能，回顾更为便捷。</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-05-23-IMG_8850.PNG" alt></p><p>接触了 <a href="https://flomoapp.com/register2/?MTAzNDE" target="_blank" rel="noopener">flomo</a> 后，我发觉它跟读书笔记我觉得简直是绝配，在 <a href="https://flomoapp.com/register2/?MTAzNDE" target="_blank" rel="noopener">flomo</a> 中创建一个读书笔记的 tag，将笔记关联上这个 tag，然后每天定时回顾（现在有了小组件就更为方便了）。</p><p>所以现在的主要问题就成了怎么将 Kindle 中的笔记导入到 <a href="https://flomoapp.com/register2/?MTAzNDE" target="_blank" rel="noopener">flomo</a>。</p><p>前几天少楠大佬（<a href="https://flomoapp.com/register2/?MTAzNDE" target="_blank" rel="noopener">flomo</a> 创始人之一）转发了一篇公众号文章，是这个公众号的主人（lupeng）开发了一个工具，可以将 Kindle 笔记导入到 <a href="https://flomoapp.com/register2/?MTAzNDE" target="_blank" rel="noopener">flomo</a>。我试用了下，没想到我的第一个笔记就识别不出来，而且有些我想要的功能，这个工具也没实现，比如编辑，配置 tag 位置。正好我以前（当我把 Klib 中的笔记一条一条导入到 <a href="https://flomoapp.com/register2/?MTAzNDE" target="_blank" rel="noopener">flomo</a> 中的时候）也有过开发一个类似工具的念头，于是我打算在 lupeng 的基础上重新开发了一遍，加上一些我自己需要的功能，到时候找他授权。</p><p>软件主要功能开发还是挺快的，周五那天团建完，喝了不少酒，洗漱完发现不困，脑袋里一直想着这个工具，索性就直接写。大概从 11 点半写到了 1 点半，主要功能都已经实现，正好也困了，于是就睡下了。</p><p>第二天 8 点多醒来开始打磨细节与界面，结果打磨了一整天……傍晚的时候才将它交给少楠。</p><p>第一版的 Kindle2Flomo 只支持从 HTML 文件导入，但 HTML 文件只能单本书导出，无法在一个文件中导出所有书的笔记，我觉得如果用户已经累积了不少笔记的话，用 HTML 文件导出会非常的麻烦，所以我后面又添加了从 <code>My Clippings.txt</code> 导出，这样会方便很多（lupeng 就是觉得用这种方式太麻烦了，因为需要连数据线，所以才选择从 HTML 导入）。之后我还加了笔记拖拽调整顺序的功能，虽然我觉得这个功能应该不常用。</p><p>在线使用地址：<a href="https://tit1e.github.io/kindle2Flomo/" target="_blank" rel="noopener">Kindle2Flomo</a></p><p>Mac <a href="https://wwr.lanzoui.com/iIFx3pdxvvi" target="_blank" rel="noopener">应用下载</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-05-23-Xnip2021-05-23_17-43-21.png&quot; alt&gt;&lt;/p&gt;
+&lt;p&gt;作为 Kindle 用户，一开始的时候
+      
+    
+    </summary>
+    
+    
+      <category term="折腾" scheme="https://github.com/Tit1e/tags/%E6%8A%98%E8%85%BE/"/>
+    
+  </entry>
   
   <entry>
     <title>生活再次趋于平稳</title>
@@ -497,29 +521,6 @@
         &lt;p&gt;之所以现在才写这个教程，是因为iOS14.3发布后，通过快捷指令打开应用不用先打开快捷指令 app 再跳到指定 app 了，但目前通过快捷指令打开的应用，每次打开会出现一个弹窗，并且这个弹窗无法关闭，也不能手动提前关闭。&lt;/p&gt;
 &lt;p&gt;先上最终效果图：&lt;/p&gt;
 &lt;p&gt;&lt;im
-      
-    
-    </summary>
-    
-    
-      <category term="折腾" scheme="https://github.com/Tit1e/tags/%E6%8A%98%E8%85%BE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>为域名申请免费 https 证书</title>
-    <link href="https://github.com/Tit1e/2020/12/15/137-freessl/"/>
-    <id>https://github.com/Tit1e/2020/12/15/137-freessl/</id>
-    <published>2020-12-15T12:55:58.000Z</published>
-    <updated>2020-12-30T13:35:55.495Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天五六月份上个服务器到期后，一直没有开始折腾新的服务器，只是安装了一下环境：node，Nginx，Mysql之类，很多服务都没有跑起来，今天终于打算把它重新捡起来，目前服务都基本已经恢复，进行得还算顺利，趁热打铁，把蒸腾的一些经过记录一下，其实上次折腾的时候我就打算记录，无奈拖太久，已经回忆不起来了，只能作罢。</p><p>服务器基础的一些基础环境的安装之前已经写过一篇博客，就不再展开，要了解可以<a href="https://evolly.one/2018/12/14/51-ubuntu-node/" target="_blank" rel="noopener">点击这里</a>。</p><p>域名的购买备案我都在阿里云解决，此处不再展开。今天要讲的是为域名申请免费的 https 证书，因为这个域名之前是为了给小程序写接口申请的，小程序必须使用域名并且要备案，使用 https 访问。</p><p>我是在<a href="https://freessl.cn/" target="_blank" rel="noopener">freessl</a>申请的域名，并且申请的是<strong>多域名通配符</strong>类型的证书，这样我就不用给每个二级域名都申请一个证书。不过这种证书有效期比较短，只有三个月，过期后怎么处理目前我还不确定，只能到时候再看。</p><p>进入网站后先登录，然后在输入框中输入域名，我需要多域名所以我是这样写的（拿百度举例）：*.baidu.com,baidu.com</p><p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2020-12-15-131207.png" alt></p><p>然后网站会让你下载一个应用程序，叫 keyManager。设置好开启密码后，会先让你授权域名运营商，我用的阿里云，它本身就支持，所以我填入两个 key 后马上就授权成功了，后面就是申请，过程很简单，完成后需要你去域名解析那添加一个 TXT 类型的解析，解析内容软件会提供。</p><p>解析完了之后，导出证书，我用的 Nginx 那我就选择 Nginx。下载后是一个压缩包，解压后得到两个文件，一个扩展名为<code>.crt</code>，另一个为<code>.key</code>。这两个文件到时候需要上传到服务器中，Nginx配置中需要用到。</p><p>Nginx 的配置文件大致如下：</p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// xxxx.conf</span><br><span class="line">// 重定向，http 重定向为 https</span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name 域名;</span><br><span class="line">    return 301 https://$server_name$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name 域名;</span><br><span class="line">    ssl_certificate /path/文件名.crt; //存放文件的路径</span><br><span class="line">    ssl_certificate_key /path/文件名.key; //存放文件的路径</span><br><span class="line">    root /home/ubuntu/www/animal-crossing-home; //项目根目录</span><br><span class="line">    index index.html; // 默认文件名</span><br><span class="line">    location / &#123;</span><br><span class="line">      proxy_pass http://127.0.0.1:5000; //本地服务地址加端口</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>然后重启Nginx：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -s reload</span><br></pre></td></tr></table></figure><p>这时，你访问 http 的域名，就会被重定向到 https，chrome 地址前不出意外的话，也应该会显示一把小锁。</p><p>域名三个月后过期如何处理我到时候会再写一篇博客进行说明。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;今天五六月份上个服务器到期后，一直没有开始折腾新的服务器，只是安装了一下环境：node，Nginx，Mysql之类，很多服务都没有跑起来，今天终于打算把它重新捡起来，目前服务都基本已经恢复，进行得还算顺利，趁热打铁，把蒸腾的一些经过记录一下，其实上次折腾的时候我就打算记录，
       
     
     </summary>
