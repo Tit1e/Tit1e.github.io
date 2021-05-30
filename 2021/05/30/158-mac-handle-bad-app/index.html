@@ -1,9 +1,9 @@
 <!DOCTYPE html><html lang="en"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>Mac 出现应用无法打开的一些请况处理方式总结 · Tit1e</title><meta name="description" content="Mac 出现应用无法打开的一些请况处理方式总结 - Tit1e"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://github.com/Tit1e/atom.xml" title="Tit1e"></head><body><div class="wrap"><header><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span><span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">主页</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">过往</a></li><li class="nav-list-item"><a href="https://album.animalcrossing.life" target="_blank" class="nav-list-link">摄影集</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">订阅</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Mac 出现应用无法打开的一些请况处理方式总结</h1><div class="post-info">May 30, 2021</div><div class="post-content"><p>使用 Mac 时，我们总会装一些 app store 之外的应用，而这些来自第三方的应用在安装打开后经常会出现应用无法打开的情况。我遇到的主要两种：</p>
-<h2 id="情况一"><a href="#情况一" class="headerlink" title="情况一"></a>情况一</h2><blockquote>
+<h3 id="情况一"><a href="#情况一" class="headerlink" title="情况一"></a>情况一</h3><blockquote>
 <p>打不开XXX，因为它来自身份不明的开发者</p>
 </blockquote>
 <p>这种错误只会出现在 macOS Mojave 10.14 及以下版本。</p>
-<h3 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h3><p>打开终端，输入：</p>
+<h4 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h4><p>打开终端，输入：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo spctl --master-disable</span><br></pre></td></tr></table></figure>
 <p>然后回车，会提示你输入密码，密码就是你的开机锁屏密码。密码输入不会显示在界面上，只需正常输完回车就行，但需要注意输入法是否是英文键盘。</p>
 <p>打开【系统偏好设置】-【安全与隐私】-【通用】确认一下，没输之前状态可能是这样的：</p>
@@ -11,11 +11,11 @@
 <p>输完后重新进入【安全与隐私】应该就是下图状态：</p>
 <p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-05-30-152601.png" alt></p>
 <p>然后可以尝试重新打开应用。</p>
-<h2 id="情况二"><a href="#情况二" class="headerlink" title="情况二"></a>情况二</h2><blockquote>
+<h3 id="情况二"><a href="#情况二" class="headerlink" title="情况二"></a>情况二</h3><blockquote>
 <p>xxx已损坏，无法打开，您应该将它移到废纸篓</p>
 </blockquote>
 <p>这种错误只出现在版本在 10.15 及以上的系统中，因为 Apple 对未签名的应用权限又缩紧了。macOS Mojave 10.14 及以下版本，只需将“允许任意来源”打开就行。但是在 macOS 10.15 中光打开“允许任意来源”还是不够的，需要将 app 身上的一个扩展属性删掉。</p>
-<h3 id="解决方式-1"><a href="#解决方式-1" class="headerlink" title="解决方式"></a>解决方式</h3><p>打开终端，输入，注意在 quarantine 之后有一个<strong>空格</strong></p>
+<h4 id="解决方式-1"><a href="#解决方式-1" class="headerlink" title="解决方式"></a>解决方式</h4><p>打开终端，输入，注意在 quarantine 之后有一个<strong>空格</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo xattr -d com.apple.quarantine</span><br></pre></td></tr></table></figure>
 <p>然后打开 finder，目录切换到应用程序，找到打不开的应用，拖入终端，回车。也会让你输入密码，输完回车。</p>
 <p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-05-30-153659.png" alt></p>
