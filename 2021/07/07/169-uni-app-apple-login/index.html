@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="en"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>uni-app 对接苹果登录 · Tit1e</title><meta name="description" content="uni-app 对接苹果登录 - Tit1e"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://github.com/Tit1e/atom.xml" title="Tit1e"></head><body><div class="wrap"><header><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span><span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">主页</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">过往</a></li><li class="nav-list-item"><a href="https://album.animalcrossing.life" target="_blank" class="nav-list-link">摄影集</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">订阅</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">uni-app 对接苹果登录</h1><div class="post-info">Jul 7, 2021</div><div class="post-content"><p>前阵子公司用 uni-app + u-view 写了个移动端的项目，然后打包成安卓与 iOS 两端的应用。目前应用已经出来了，但是还未上架到应用市场与 App Store，这个上架过程也是非常的艰难，有好多的问题，苹果登录就是其中之一。</p>
+<p>在 iOS13 之后，应用如果用到了第三方登录，那么苹果要求必须有使用 Apple 账号登录的选项，否则无法上架至 App Store。</p>
+<p>首先在 manifest.json 中的 <strong>App模块配置</strong>中勾选苹果登录。</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-07-07-151018.png" alt></p>
+<p>选中之后就是调试问题了。</p>
+<p>真机调试的时候使用标准运行基座并不能测试苹果登录，解决方法有两个：</p>
+<ol>
+<li>打包后调试</li>
+<li>使用自定义调试基座调试</li>
+</ol>
+<p>打包后调试自然不用说，自定义调试基座说简单点就是生成一个与你打包后的 app 一样的基座，而不是使用默认的HBuilder，这样苹果的登录模块就会被打包进去，从而实现调试。</p>
+<p>自定义调试基座生成方式：</p>
+<p><strong>发行 - 原生 App 云打包</strong></p>
+<p>其实就跟 app 打包方式相同，就是有个配置不一样：</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-07-07-152115.png" alt></p>
+<p>正常打包选择的是正式打包，而打包基座的花就选择打自定义调试基座。之后就与耐心等下就行了。</p>
+<p>安装完成后，在<strong>运行</strong>菜单选择自定义调试基座</p>
+<p><img src="https://personal-1251959693.cos.ap-chengdu.myqcloud.com/2021-07-07-152545.png" alt></p>
+<p>然后再运行到手机就可以进行苹果登录的调试了。</p>
+<p>唤起登录：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">uni.login(&#123;</span><br><span class="line">  provider: <span class="string">'apple'</span>,</span><br><span class="line">  success: <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    uni.getUserInfo(&#123;</span><br><span class="line">      provider: <span class="string">'apple'</span>,</span><br><span class="line">      success: <span class="function">(<span class="params">info</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(info)</span><br><span class="line">      &#125;,</span><br><span class="line">      fail: <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(e)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  fail: <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>⚠️ 我在对接的过程中发现了这几点需要注意的问题：</p>
+<ol>
+<li>苹果授权成功回调返回的信息中，只有第一次会返回姓名，之后就不再返回</li>
+<li>点击苹果登录后会弹出指纹或面容识别的弹窗，要求验证身份，但是这个弹窗短期内不会再次出现，它会直接跳过验证，返回成功或失败的信息。倒是不影响使用，但是很奇怪。</li>
+<li>苹果登录只在 iOS13 以上的系统中可以使用。</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/2021/05/30/158-mac-handle-bad-app/" class="next">下一篇</a></div><div class="copyright"><p>© 2016 - 2021 <a href="https://github.com/Tit1e" target="_blank">Tit1e</a>, powered by <a href="https://github.com/Tit1e/hexo-theme-simple" target="_blank">hexo-theme-simple</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></body></html>
